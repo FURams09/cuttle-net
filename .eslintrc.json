@@ -3,6 +3,5 @@
     "next/core-web-vitals",
     "next/typescript",
     "plugin:storybook/recommended"
-  ],
-  "ignores": ["src/app/stories/*"]
+  ]
 }
