@@ -55,9 +55,9 @@ jobs:
           IMAGE_TAG: latest
         run: |
           docker tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA \
-          public.ecr.aws/${{ secrets.AWS_ACCOUNT_ID }}/${{ secrets.AWS_ECR_REPO }}:${{ secrets.IMAGE_TAG }}
+          public.ecr.aws/${{ secrets.AWS_ACCOUNT_ID }}/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:
           IMAGE_TAG: latest
         run: |
-          docker push public.ecr.aws/${{ secrets.AWS_ACCOUNT_ID }}/${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
+          docker push public.ecr.aws/${{ secrets.AWS_ACCOUNT_ID }}/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
