@@ -41,7 +41,7 @@ jobs:
           name: docker-image
           path: ./image.tar.gz
       - name: Load Docker image
-        run: gunzip -c ./image.tar.gz | docker load
+        run: gunzip -c $GITHUB_WORKSPACE/image.tar.gz | docker load
       - name: Setup AWS ECR Details
         uses: aws-actions/configure-aws-credentials@v1
         with:
