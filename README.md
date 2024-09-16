@@ -33,3 +33,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 [NextUI](https://nextui.org/docs/frameworks/nextjs)
 [Storybook](https://storybook.js.org/docs)
 [React Icons](https://react-icons.github.io/react-icons/)
+[Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+[AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
