@@ -12,7 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  Build Cuttle-Next Docker Image:
+  Publish-cuttle-next:
+    name: Build CuttleNext Docker Image 
     runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.set-cuttlenet-tag-name.outputs.tag }}
