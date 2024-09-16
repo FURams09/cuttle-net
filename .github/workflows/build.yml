@@ -52,12 +52,14 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Tag Docker image
         env:
+          REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
           IMAGE_TAG: latest
         run: |
           docker tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA \
-          public.ecr.aws/${{ secrets.AWS_ACCOUNT_ID }}/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
+          $REGISTRY/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:
           IMAGE_TAG: latest
+          REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
         run: |
-          docker push public.ecr.aws/${{ secrets.AWS_ACCOUNT_ID }}/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
+          $REGISTRY/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
