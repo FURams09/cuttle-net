@@ -30,7 +30,7 @@ jobs:
         id: login-pf-aws-ecr
         uses: aws-actions/amazon-ecr-login@v1
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA)
+        run: docker build --file Dockerfile --tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA .
       - name: Save Docker image as an artifact
         run: docker save ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA | gzip > image.tar.gz
       - name: Upload Image Artifact
