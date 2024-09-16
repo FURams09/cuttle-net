@@ -53,13 +53,16 @@ jobs:
       - name: Tag Docker image
         env:
           REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
+          REGISTRY_ALIAS: l5b5t6e6
+          REPOSITORY: cuttlenet/cuttle-next
           IMAGE_TAG: latest
         run: |
           docker tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA \
-          $REGISTRY/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
+          $REGISTRY/$REGISTRY_ALIAS/REPOSITORY:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:
           IMAGE_TAG: latest
           REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
-        run: |
-          $REGISTRY/${{ secrets.AWS_ECR_REPO }}:$IMAGE_TAG
+          REGISTRY_ALIAS: l5b5t6e6
+          REPOSITORY: cuttlenet/cuttle-next
+        run: docker push $REGISTRY/$REGISTRY_ALIAS/REPOSITORY:$IMAGE_TAG
