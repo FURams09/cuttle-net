@@ -20,15 +20,6 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Setup AWS ECR Details
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{secrets.AWS_REGION}}
-      - name: Login to Amazon ECR
-        id: login-pf-aws-ecr
-        uses: aws-actions/amazon-ecr-login@v1
       - name: Build the Docker image
         run: docker build --file Dockerfile --tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA .
       - name: Save Docker image as an artifact
@@ -50,7 +41,7 @@ jobs:
           name: docker-image
           path: ./image.tar.gz
       - name: Load Docker image
-        run: gunzip -c image.tar.gz | docker load
+        run: gunzip -c ./image.tar.gz | docker load
       - name: Setup AWS ECR Details
         uses: aws-actions/configure-aws-credentials@v1
         with:
