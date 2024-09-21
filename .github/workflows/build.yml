@@ -21,9 +21,9 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
       - name: Build the Docker image
-        run: docker build --file Dockerfile --tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA .
+        run: docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:$GITHUB_SHA .
       - name: Save Docker image as an artifact
-        run: docker save ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA | gzip > image.tar.gz
+        run: docker save ${{ vars.AWS_ECR_REPO }}:$GITHUB_SHA | gzip > image.tar.gz
       - name: Upload Image Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -46,7 +46,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{secrets.AWS_REGION}}
+          aws-region: ${{vars.AWS_REGION}}
       - name: Login to Amazon ECR
         id: login-pf-aws-ecr
         uses: aws-actions/amazon-ecr-login@v2
@@ -58,11 +58,10 @@ jobs:
           REPOSITORY: cuttlenet/cuttle-next
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          echo $REGISTRY && docker tag ${{ secrets.AWS_ECR_REPO }}:$GITHUB_SHA \
-          $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          echo $REGISTRY && docker tag ${{ vars.AWS_ECR_REPO }}:$GITHUB_SHA \
+          $REGISTRY/${{ vars.AWS_ECR_REPO }}:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:
           IMAGE_TAG: ${{ github.sha }}
           REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
-          REPOSITORY: cuttlenet/cuttle-next
-        run: docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        run: docker push $REGISTRY/${{ vars.AWS_ECR_REPO }}:$IMAGE_TAG
