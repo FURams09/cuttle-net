@@ -35,6 +35,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 [React Icons](https://react-icons.github.io/react-icons/)
 [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-
+[Github Workflows](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#workflow_run)
 curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
 sudo installer -pkg AWSCLIV2.pkg -target /
+

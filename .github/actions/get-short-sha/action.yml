@@ -1,0 +1,17 @@
+name: "Get Short SHA for Tag"
+description: "Output a truncated github sha to use for tagging"
+outputs:
+  short-sha:
+    description: "The truncated string"
+    value: ${{ steps.shorten-sha.outputs.short-sha }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Shorten SHA
+      id: shorten-sha
+      shell: bash
+      run: |
+        SHA="${{ github.sha }}"
+        SHORT_SHA=$(echo "$SHA" | cut -c 1-8)
+        echo "short-sha=$SHORT_SHA" >> $GITHUB_OUTPUT
