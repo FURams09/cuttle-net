@@ -10,5 +10,5 @@ runs:
     - name: Shorten SHA
       id: shorten-sha
       run: |
-      CURRENT_SHA="${{ github.sha }}"
-      echo "short-sha=${CURRENT_SHA}" >> "$GITHUB_OUTPUT"
+        CURRENT_SHA="${{ github.sha }}"
+        echo "short-sha=${CURRENT_SHA}" >> "$GITHUB_OUTPUT"
