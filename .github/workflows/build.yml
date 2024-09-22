@@ -33,6 +33,8 @@ jobs:
     needs: build-cuttle-next
     if: github.event.pull_request.merged == true
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
       - name: Get SHA Tag
         id: shorten-sha
         uses: ./.github/actions/get-short-sha
