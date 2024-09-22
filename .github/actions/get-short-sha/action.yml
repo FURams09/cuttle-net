@@ -11,5 +11,5 @@ runs:
       id: shorten-sha
       shell: bash
       run: |
-        SHORT_SHA=4(echo ${{ github.sha }} | cut -c 1-9)
+        SHORT_SHA=(echo ${{ github.sha }} | cut -c 1-9)
         echo "short-sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
