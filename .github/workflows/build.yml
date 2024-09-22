@@ -26,7 +26,9 @@ jobs:
         id: shorten-sha
         uses: ./.github/actions/get-short-sha
       - name: Build the Docker image
-        run: docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:${{ steps.shorten-sha.outputs.short-sha }} .
+        run: |
+        echo "${{ steps.shorten-sha.outputs.short-sha }}"
+        docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:${{ steps.shorten-sha.outputs.short-sha }} .
   upload-cuttle-next-artifact:
     name: Upload Artifact (main only)
     runs-on: ubuntu-latest
