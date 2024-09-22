@@ -71,12 +71,12 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
           REPOSITORY: cuttlenet/cuttle-next
-          IMAGE_TAG: ${{ github.ref == 'refs/heads/main' && 'latest' || steps.shorten-sha.outputs.short-sha}}
+          IMAGE_TAG: ${{ github.event.pull_request.merged && steps.shorten-sha.outputs.short-sha || 'latest'}}
         run: |
           docker tag ${{ vars.AWS_ECR_REPO }}:${{ steps.shorten-sha.outputs.short-sha }} \
           $REGISTRY/${{ vars.AWS_ECR_REPO }}:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:
-          IMAGE_TAG: ${{ github.ref == 'refs/heads/main' && 'latest' || steps.shorten-sha.outputs.short-sha}}
+          IMAGE_TAG: ${{ github.event.pull_request.merged && steps.shorten-sha.outputs.short-sha || 'latest'}}
           REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
         run: docker push $REGISTRY/${{ vars.AWS_ECR_REPO }}:$IMAGE_TAG
