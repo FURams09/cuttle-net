@@ -8,8 +8,7 @@ runs:
   using: "composite"
   steps:
     - name: Shorten SHA
-      id: shorten
+      id: shorten-sha
       run: |
-      CURRENT_SHA=${{ github.sha }}
-      SHORT_SHA="${CURRENT_SHA:0:8}"
-      echo "::set-output name=truncated::$SHORT_SHA"
+      CURRENT_SHA="${{ github.sha }}"
+      echo "short-sha=${CURRENT_SHA}" >> "$GITHUB_OUTPUT"
