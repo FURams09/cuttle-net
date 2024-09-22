@@ -51,7 +51,7 @@ jobs:
         with:
           name: cuttle-next-latest
       - name: Load Docker image
-        run: docker -i $GITHUB_WORKSPACE/cuttle-next-image.tar load 
+        run: docker load < $GITHUB_WORKSPACE/cuttle-next-image.tar
       - name: Setup AWS ECR Details
         uses: aws-actions/configure-aws-credentials@v1
         with:
