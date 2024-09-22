@@ -12,16 +12,17 @@ permissions:
 
 jobs:
   deploy-cuttle-next:
+    if: ${{ github.ref == 'refs/heads/main' }} # only deploy when building main
     name: Deploy CuttleNext Image 
     runs-on: ubuntu-latest
     needs: build-cuttle-next
     steps:
       - name: Download Docker image artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@@v4
         with:
-          name: cuttle-next-image
+          name: cuttle-next-$GITHUB_SHA
       - name: Load Docker image
-        run: docker load < $GITHUB_WORKSPACE/image.tar.gz
+        run: docker -i $GITHUB_WORKSPACE/cuttle-next-image.tar load 
       - name: Setup AWS ECR Details
         uses: aws-actions/configure-aws-credentials@v1
         with:
