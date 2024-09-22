@@ -27,7 +27,7 @@ jobs:
       - name: Save Docker image as an artifact
         run: docker save -o cuttle-next-image.tar ${{ vars.AWS_ECR_REPO }}:$GITHUB_SHA 
       - name: Upload Image Artifact
-        uses: actions/upload-artifact@@v4
+        uses: actions/upload-artifact@v4
         with:
           name: cuttle-next-$GITHUB_SHA
           path: cuttle-next-image.tar
