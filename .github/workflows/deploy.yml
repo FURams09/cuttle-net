@@ -37,6 +37,7 @@ jobs:
         with:
           registry-type: public
       - name: Get SHA Tag
+        id: shorten-sha
         uses: ./.github/actions/get-short-sha
       - name: Tag Docker image
         env:
@@ -44,7 +45,7 @@ jobs:
           REPOSITORY: cuttlenet/cuttle-next
           IMAGE_TAG: latest
         run: |
-          docker tag ${{ vars.AWS_ECR_REPO }}:${{ steps.shorten-sha.output.short-sha }} \
+          docker tag ${{ vars.AWS_ECR_REPO }}:${{ steps.shorten-sha.outputs.short-sha }} \
           $REGISTRY/${{ vars.AWS_ECR_REPO }}:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:
