@@ -3,6 +3,9 @@ name: Build Cuttle-Next Image
 
 on:
   push:
+  pull_requests:
+    types:
+      - opened
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
