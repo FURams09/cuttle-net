@@ -13,4 +13,5 @@ runs:
       run: |
         SHA="${{ github.sha }}"
         SHORT_SHA=$(echo "$SHA" | cut -c 1-8)
+        echo "$SHORT_SHA"
         echo "short-sha=$(echo $SHORT_SHA)" >> $GITHUB_OUTPUT
