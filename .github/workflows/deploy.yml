@@ -22,7 +22,7 @@ jobs:
       - name: Download Docker image artifact
         uses: actions/download-artifact@v4
         with:
-          name: cuttle-next-${github.sha}
+          name: cuttle-next-latest
       - name: Load Docker image
         run: docker -i $GITHUB_WORKSPACE/cuttle-next-image.tar load 
       - name: Setup AWS ECR Details
@@ -36,13 +36,18 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
         with:
           registry-type: public
+      - name: Get short tag
+        id: get-short-sha
+        run: |
+          SHA="$(echo ${{ github.event.pull_request.head.sha }} | cut -c 1-8)"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
       - name: Tag Docker image
         env:
           REGISTRY: ${{ steps.login-pf-aws-ecr.outputs.registry }}
           REPOSITORY: cuttlenet/cuttle-next
           IMAGE_TAG: latest
         run: |
-          docker tag ${{ vars.AWS_ECR_REPO }}:${github.sha} \
+          docker tag ${{ vars.AWS_ECR_REPO }}:${{ steps.get-short-sha.outputs.sha }} \
           $REGISTRY/${{ vars.AWS_ECR_REPO }}:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:

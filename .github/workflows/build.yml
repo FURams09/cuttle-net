@@ -22,17 +22,24 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+      - name: Get short tag
+        id: get-short-sha
+        run: |
+          SHA="$(echo ${{ github.event.pull_request.head.sha }} | cut -c 1-8)"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
       - name: Build the Docker image
-        run: docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:${github.sha} .
+        run: docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:${{ steps.get-short-sha.outputs.sha }} .
   upload-cuttle-next-artifact:
     name: Upload Artifact (main only)
     runs-on: ubuntu-latest
+    needs: build-cuttle-next
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
       - name: Save Docker image as an artifact
-        run: docker save -o cuttle-next-image.tar ${{ vars.AWS_ECR_REPO }}:${github.sha}
+        run: docker save -o cuttle-next-image.tar ${{ vars.AWS_ECR_REPO }}:${{ steps.get-short-sha.outputs.sha }}
       - name: Upload Image Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: cuttle-next-${github.sha}
+          name: cuttle-next-latest
           path: cuttle-next-image.tar
+          overwrite: true
