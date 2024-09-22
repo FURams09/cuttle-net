@@ -23,11 +23,16 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
       - name: Build the Docker image
-        run: docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:$GITHUB_SHA .
+        run: docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:${github.sha} .
+  upload-cuttle-next-artifact:
+    name: Upload Artifact (main only)
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
       - name: Save Docker image as an artifact
-        run: docker save -o cuttle-next-image.tar ${{ vars.AWS_ECR_REPO }}:$GITHUB_SHA 
+        run: docker save -o cuttle-next-image.tar ${{ vars.AWS_ECR_REPO }}:${github.sha}
       - name: Upload Image Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: cuttle-next-$GITHUB_SHA
+          name: cuttle-next-${github.sha}
           path: cuttle-next-image.tar
