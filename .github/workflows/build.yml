@@ -29,19 +29,9 @@ jobs:
         uses: ./.github/actions/get-short-sha
       - name: Build the Docker image
         run: docker build --file Dockerfile --tag ${{ vars.AWS_ECR_REPO }}:${{ steps.shorten-sha.outputs.short-sha }} .
-  upload-cuttle-next-artifact:
-    name: Upload Artifact (main only)
-    runs-on: ubuntu-latest
-    needs: build-cuttle-next
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-      - name: Get SHA Tag
-        id: shorten-sha
-        uses: ./.github/actions/get-short-sha
       - name: Save Docker image as an artifact
         run: docker save -o cuttle-next-image.tar ${{ vars.AWS_ECR_REPO }}:${{ steps.shorten-sha.outputs.short-sha }}
+        if: github.ref == 'refs/heads/main'
       - name: Upload Image Artifact
         uses: actions/upload-artifact@v4
         with:
