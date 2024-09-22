@@ -12,5 +12,5 @@ runs:
       shell: bash
       run: |
         CURRENT_SHA="${{ github.sha }}"
-        SHORT_SHA="${CURRENT_SHA:0:8}"
+        SHORT_SHA=${CURRENT_SHA:0:8}
         echo "short-sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
