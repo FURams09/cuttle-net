@@ -42,7 +42,7 @@ jobs:
           REPOSITORY: cuttlenet/cuttle-next
           IMAGE_TAG: latest
         run: |
-          docker tag ${{ vars.AWS_ECR_REPO }}:${{ github.ref_name }} \
+          docker tag ${{ vars.AWS_ECR_REPO }}:${{ github.sha }} \
           $REGISTRY/${{ vars.AWS_ECR_REPO }}:$IMAGE_TAG
       - name: Push Docker image to ECR
         env:
